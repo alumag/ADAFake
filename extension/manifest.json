@@ -1,5 +1,4 @@
 {
-  "manifest_version": 2,
   "name": "ADAFake",
   "version": "1.0",
 
@@ -17,6 +16,15 @@
     "persistent": false
   },
 
+  "browser_action": {
+      "default_popup": "popup.html",
+      "default_icon": {
+        "16": "icons/icon16.png",
+        "48": "icons/icon48.png",
+        "128": "icons/icon128.png"
+      }
+  },
+
   "permissions": [
     "contextMenus",
     "webNavigation",
@@ -25,5 +33,7 @@
     "tabs",
     "https://twitter.com/",
     "http://127.0.0.1:5000/"
-  ]
+  ],
+
+  "manifest_version": 2
 }

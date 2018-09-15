@@ -8,10 +8,10 @@ chrome.contextMenus.create({
 });
 });
 
-function CheckTweet(url) {
-    var xhttp = new XMLHttpRequest();
+function CheckTweet(tab) {
+    var url = tab.url;
 
-    var returnvalue;
+    var xhttp = new XMLHttpRequest();
     xhttp.onreadystatechange = function() {
          if (this.readyState == 4 && this.status == 200) {
             var data = JSON.parse(this.responseText);
@@ -22,11 +22,12 @@ function CheckTweet(url) {
             } else if (fake_news == false) {
                 chrome.tabs.executeScript({code: 'document.body.style.backgroundColor="green"'});
             }
+
+            chrome.runtime.sendMessage({msg: "chart", data: data});
          }
     };
     xhttp.open("GET", server + "?url=" + url, true);
     xhttp.setRequestHeader("Content-type", "application/json");
-
     xhttp.send();
 }
 
@@ -41,8 +42,9 @@ chrome.webNavigation.onCompleted.addListener(function() {
 
         // for all statuses
         if (tab.url.includes("/status/")) {
+
             // check if fake news
-            CheckTweet(tab.url);
+            CheckTweet(tab);
         }
     });
 }, {url: [{urlMatches : 'https://twitter.com/'}]});
