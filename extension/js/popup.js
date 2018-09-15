@@ -16,16 +16,14 @@ function CheckTweet(tab) {
             }
 
             // add information in a paragraph
-            var x = document.createElement("P");
-            var text = "The tweet by " + data["tweet"]["user_screen_name"] + " is ";
+            var stats = document.getElementById('stats');
+            stats.innerHTML += "The tweet by " + data["tweet"]["user_screen_name"] + " is ";
             if (data["fake_news"] == true) {
-                text += "may a FAKE NEWS!";
+                stats.innerHTML += "may a FAKE NEWS!".bold();
             } else {
-                text += "completely legit AFFFF";
+                stats.innerHTML += "completely legit AFFFF".bold();
             }
-            var t = document.createTextNode(text);
-            x.appendChild(t);
-            document.getElementById("stats").appendChild(x);
+            
             create_chart(data);
          }
     };
