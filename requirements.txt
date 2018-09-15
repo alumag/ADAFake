@@ -1,2 +1,5 @@
 flask
 tweepy
+numpy
+keras
+matplotlib

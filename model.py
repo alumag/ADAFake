@@ -1,5 +1,5 @@
 # x - input. (N_samples x N_features) meta data + embedded tweets + embedded usernames
-# y - labels. 1 real, 0 fake
+# y - labels. 1 fake, 0 real
 
 import numpy as np
 import keras
@@ -29,15 +29,18 @@ def train(x, y):
                   loss='binary_crossentropy',
                   metrics=['accuracy'])
 
-    dir_name = strftime("%Y-%m-%d %H:%M:%S", gmtime())  # make a directory for saving the model
+    dir_name = strftime("%Y-%m-%d %H-%M-%S", gmtime())  # make a directory for saving the model
     os.mkdir(dir_name)
-    checkpointer = keras.callbacks.ModelCheckpoint(filepath='./' + dir_name + '/weights.{epoch:02d}-{val_loss:.2f}.hdf5', verbose=1)
+    checkpointer = keras.callbacks.ModelCheckpoint(filepath='./' + dir_name + '/weights.{epoch:02d}-{val_acc:.2f}.hdf5', verbose=1)
     # Train the model
     train_hist = model.fit(x, y, epochs=n_epochs, batch_size=n_batch, validation_split=0.1, verbose=2, callbacks=[checkpointer])
-    train_loss = train_hist.history['loss']
-    val_loss = train_hist.history['val_loss']
+    # train_loss = train_hist.history['loss']
+    # val_loss = train_hist.history['val_loss']
+    train_loss = train_hist.history['acc']
+    val_loss = train_hist.history['val_acc']
     plt.plot(np.arange(n_epochs), train_loss, label='train')
     plt.plot(np.arange(n_epochs), val_loss, label='val')
+    plt.legend()
     plt.show()
 
 
@@ -48,7 +51,9 @@ def evaluate(x, save_path):
 
 
 if __name__ == "__main__":
-    with open('ADAFake/data/numeric_data.pkl', 'rb') as f:
+    with open('C:/Users/aviv/PycharmProjects/ADAFake/data/numeric_data.pkl', 'rb') as f:
         data, lbls = pickle.load(f)
-    train(data, lbls)
-    # est = evaluate(x,'')
+    # train(data, lbls)
+    load_path = '2018-09-15 11_08_05/weights.10-2.06.hdf5'
+    est = evaluate(data,load_path)
+    # print('test')
