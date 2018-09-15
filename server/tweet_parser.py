@@ -12,11 +12,31 @@ pattern = "https://twitter.com/\w+/status/(\d+)"
 compiled = re.compile(pattern=pattern)
 
 
+def get_relevant_tweet_data(tweet):
+    relevant_data = dict(
+        tweet_id=tweet["id"],
+        created_at=tweet["created_at"],
+        retweet_count=tweet["retweet_count"],
+        text=tweet["text"],
+        user_screen_name=tweet["screen_name"],
+        user_verified=tweet["verified"],
+        user_friends_count=tweet["friends_count"],
+        user_followers_count=tweet["followers_count"],
+        user_favourites_count=tweet["favourites_count"],
+        num_hashtags=len(tweet["entities"]["hashtags"]["indices"]),
+        num_mentions=len(tweet["entities"]["user_mentions"]),
+        num_urls=len(tweet["entities"]["urls"]["indices"])
+    )
+
+    return relevant_data
+
+
 def get_tweet(url):
     tweet_id = compiled.findall(url)
     if not tweet_id:
         raise ValueError()
     tweet_id = tweet_id[0]
-
     return api.get_status(tweet_id)._json
+
+    return get_relevant_tweet_data(tweet)
 
