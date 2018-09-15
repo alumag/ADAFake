@@ -16,16 +16,16 @@ function CheckTweet(tab) {
             }
 
             // add information in a paragraph
-            var x = document.createElement("P");
-            var text = "The tweet by " + data["tweet"]["user_screen_name"] + " is ";
+            var stats = document.getElementById('stats');
+            stats.innerHTML += "The tweet by " + data["tweet"]["user_screen_name"] + " is ";
             if (data["fake_news"] == true) {
-                text += "may a FAKE NEWS!";
+                stats.innerHTML += "may a FAKE NEWS!".bold().fontcolor("red");
+                stats.innerHTML += "<img src=\"/icons/fake.jpg\"/>";
             } else {
-                text += "completely legit AFFFF";
+                stats.innerHTML += "completely legit AFFFF".bold().fontcolor("green");
+                stats.innerHTML += "<img src=\"/icons/legit.jpg\"/>";
             }
-            var t = document.createTextNode(text);
-            x.appendChild(t);
-            document.getElementById("stats").appendChild(x);
+
             create_chart(data);
          }
     };
@@ -34,7 +34,7 @@ function CheckTweet(tab) {
     xhttp.send();
 }
 
-chrome.webNavigation.onCompleted.addListener(function() {
+window.onload = function() {
     // get tab url
       chrome.tabs.query({
         active: true,
@@ -44,53 +44,44 @@ chrome.webNavigation.onCompleted.addListener(function() {
         var tab = tabs[0];
 
         // for all statuses
-        if (tab.url.includes("/status/")) {
+        if (tab.url.includes("/status/") && tab.url.includes("twitter.com/")) {
 
             // check if fake news
             CheckTweet(tab);
         }
     });
-}, {url: [{urlMatches : 'https://twitter.com/'}]});
+};
 
 
 function create_chart(data) {
     // add chart! for now only a demo
     var ctx = document.getElementById("canvas");
 
-    var myChart = new Chart(ctx, {
-        type: 'bar',
-        data: {
-            labels: ["Red", "Blue", "Yellow", "Green", "Purple", "Orange"],
-            datasets: [{
-                label: '# of Votes',
-                data: [12, 19, 3, 5, 2, 3],
-                backgroundColor: [
-                    'rgba(255, 99, 132, 0.2)',
-                    'rgba(54, 162, 235, 0.2)',
-                    'rgba(255, 206, 86, 0.2)',
-                    'rgba(75, 192, 192, 0.2)',
-                    'rgba(153, 102, 255, 0.2)',
-                    'rgba(255, 159, 64, 0.2)'
-                ],
-                borderColor: [
-                    'rgba(255,99,132,1)',
-                    'rgba(54, 162, 235, 1)',
-                    'rgba(255, 206, 86, 1)',
-                    'rgba(75, 192, 192, 1)',
-                    'rgba(153, 102, 255, 1)',
-                    'rgba(255, 159, 64, 1)'
-                ],
-                borderWidth: 1
-            }]
-        },
-        options: {
-            scales: {
-                yAxes: [{
-                    ticks: {
-                        beginAtZero:true
-                    }
-                }]
-            }
-        }
+    data = {
+    datasets: [{
+        data: [0.4, 1, 0.2],
+        backgroundColor: [
+                'rgba(255, 99, 132, 0.2)',
+                'rgba(54, 162, 235, 0.2)',
+                'rgba(255, 206, 86, 0.2)'
+        ],
+        borderColor: [
+            'rgba(255,99,132,1)',
+            'rgba(54, 162, 235, 1)',
+            'rgba(255, 206, 86, 1)'
+        ]
+    }],
+
+    // These labels appear in the legend and in the tooltips when hovering different arcs
+    labels: [
+        'Journalist',
+        'Fake News',
+        'Opinion'
+    ]
+    };
+
+    var chart = new Chart(ctx, {
+    data: data,
+    type: 'doughnut',
     });
 };
