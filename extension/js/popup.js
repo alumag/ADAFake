@@ -23,7 +23,7 @@ function CheckTweet(tab) {
             } else {
                 stats.innerHTML += "completely legit AFFFF".bold();
             }
-            
+
             create_chart(data);
          }
     };
