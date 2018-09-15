@@ -1,4 +1,5 @@
 import re
+import functools
 
 import tweepy
 from apikey import ACCESS_TOKEN, ACCESS_SECRET, CONSUMER_KEY, CONSUMER_SECRET
@@ -31,6 +32,7 @@ def get_relevant_tweet_data(tweet):
     return relevant_data
 
 
+@functools.lru_cache(maxsize=128)
 def get_tweet(url):
     tweet_id = compiled.findall(url)
     if not tweet_id:
