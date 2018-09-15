@@ -1,4 +1,4 @@
-var server = "http://127.0.0.1:5000/api/v1/checkTwit"; // testing url
+var server = "http://127.0.0.1:5000/api/v1/checkTweet"; // testing url
 
 chrome.runtime.onInstalled.addListener(function() {
 chrome.contextMenus.create({
@@ -8,22 +8,26 @@ chrome.contextMenus.create({
 });
 });
 
-function CheckTwit(url) {
+function CheckTweet(url) {
     var xhttp = new XMLHttpRequest();
+
+    var returnvalue;
     xhttp.onreadystatechange = function() {
          if (this.readyState == 4 && this.status == 200) {
-            alert(this.responseText);
-             if (this.responseText == "is fake news") {
-                return 0;
-             } else {
-                return 1;
-             }
+            var data = JSON.parse(this.responseText);
+            fake_news = data["fake_news"];
+
+            if (fake_news == true) {
+                chrome.tabs.executeScript({code: 'document.body.style.backgroundColor="red"'});
+            } else if (fake_news == false) {
+                chrome.tabs.executeScript({code: 'document.body.style.backgroundColor="green"'});
+            }
          }
     };
-    xhttp.open("GET", server, true);
+    xhttp.open("GET", server + "?url=" + url, true);
     xhttp.setRequestHeader("Content-type", "application/json");
 
-    xhttp.send("{url: " + url + "}");
+    xhttp.send();
 }
 
 chrome.webNavigation.onCompleted.addListener(function() {
@@ -38,11 +42,7 @@ chrome.webNavigation.onCompleted.addListener(function() {
         // for all statuses
         if (tab.url.includes("/status/")) {
             // check if fake news
-            if (1 == CheckTwit(tab.url)) {
-            chrome.tabs.executeScript({code: 'document.body.style.backgroundColor="green"'});
-            } else {
-            chrome.tabs.executeScript({code: 'document.body.style.backgroundColor="red"'});
-            }
+            CheckTweet(tab.url);
         }
     });
 }, {url: [{urlMatches : 'https://twitter.com/'}]});
