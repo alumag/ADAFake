@@ -36,7 +36,7 @@ def get_tweet(url):
     if not tweet_id:
         raise ValueError()
     tweet_id = tweet_id[0]
-    return api.get_status(tweet_id)._json
+    tweet = api.get_status(tweet_id)._json
 
     return get_relevant_tweet_data(tweet)
 
