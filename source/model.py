@@ -10,11 +10,11 @@ from time import gmtime, strftime
 import os
 import matplotlib.pyplot as plt
 import pickle
-
+import random
 
 def train(x, y):
-    n_epochs = 10
-    n_batch = 32
+    n_epochs = 20
+    n_batch = 2
 
     # mix data
     idx = np.random.permutation(x.shape[0])
@@ -24,7 +24,7 @@ def train(x, y):
     model = Sequential()
     model.add(Dense(32, activation='relu', input_dim=x.shape[1]))
     model.add(Dense(1, activation='sigmoid'))
-    sgd = optimizers.SGD(lr=0.01, decay=1e-6, momentum=0.9, nesterov=True)
+    sgd = optimizers.SGD(lr=0.001, decay=1e-6, momentum=0.9, nesterov=True)
     model.compile(optimizer=sgd,
                   loss='binary_crossentropy',
                   metrics=['accuracy'])
@@ -44,16 +44,26 @@ def train(x, y):
     plt.show()
 
 
-def evaluate(x, save_path):
+def evaluate(x, save_path): #todo default path!!
     loaded_model = load_model(save_path)
     est = loaded_model.predict(x)
-    return est.astype(bool)
+    return est.astype(bool).flatten()
 
 
 if __name__ == "__main__":
-    with open('C:/Users/aviv/PycharmProjects/ADAFake/data/numeric_data.pkl', 'rb') as f:
+    with open('../data/numeric_data.pkl', 'rb') as f:
         data, lbls = pickle.load(f)
-    # train(data, lbls)
-    load_path = '2018-09-15 11_08_05/weights.10-2.06.hdf5'
-    est = evaluate(data, load_path)
+    # equal fake / real samples
+    n_min = np.minimum(np.sum(lbls == 0), np.sum(lbls == 1))
+    idx = np.concatenate([random.sample(list(np.where(lbls == 0)[0]), n_min), random.sample(list(np.where(lbls == 1)[0]), n_min)])
+    # normalize the data
+    train_mean = np.mean(data[idx],axis=1)
+    train_std = np.std(data[idx],axis=1)
+    train_data = (data[idx] - train_mean) / train_std
+    # save normalization params
+    with open('../data/norm_train_params.pkl', 'rb') as f:
+        pickle.dump([train_mean, train_std],f)
+    train(train_data, lbls[idx])
+    # load_path = '2018-09-15 11_08_05/weights.10-2.06.hdf5'
+    # est = evaluate(data, load_path)
     # print('test')
