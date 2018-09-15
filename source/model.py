@@ -55,5 +55,5 @@ if __name__ == "__main__":
         data, lbls = pickle.load(f)
     # train(data, lbls)
     load_path = '2018-09-15 11_08_05/weights.10-2.06.hdf5'
-    est = evaluate(data,load_path)
+    est = evaluate(data, load_path)
     # print('test')
