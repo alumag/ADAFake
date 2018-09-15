@@ -34,7 +34,7 @@ function CheckTweet(tab) {
     xhttp.send();
 }
 
-chrome.webNavigation.onCompleted.addListener(function() {
+window.onload = function() {
     // get tab url
       chrome.tabs.query({
         active: true,
@@ -44,13 +44,13 @@ chrome.webNavigation.onCompleted.addListener(function() {
         var tab = tabs[0];
 
         // for all statuses
-        if (tab.url.includes("/status/")) {
+        if (tab.url.includes("/status/") && tab.url.includes("twitter.com/")) {
 
             // check if fake news
             CheckTweet(tab);
         }
     });
-}, {url: [{urlMatches : 'https://twitter.com/'}]});
+};
 
 
 function create_chart(data) {
