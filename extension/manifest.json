@@ -1,0 +1,23 @@
+{
+  "manifest_version": 2,
+  "name": "ADAFake",
+  "version": "1.0",
+
+  "description": "Chrome extension that battles fake news",
+  "homepage_url": "https://github.com/MissLummie/ADAFake",
+
+  "background": {
+    "scripts": ["background.js"],
+    "persistent": false
+  },
+
+  "permissions": [
+    "contextMenus",
+    "webNavigation",
+    "pageCapture",
+    "activeTab",
+    "tabs",
+    "https://twitter.com/",
+    "http://127.0.0.1:5000/"
+  ]
+}
