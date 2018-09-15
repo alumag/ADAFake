@@ -23,7 +23,7 @@ function CheckTweet(tab) {
                 chrome.tabs.executeScript({code: 'document.body.style.backgroundColor="green"'});
             }
 
-            chrome.runtime.sendMessage({msg: "chart", data: {}});
+            chrome.runtime.sendMessage({msg: "chart", data: data});
          }
     };
     xhttp.open("GET", server + "?url=" + url, true);

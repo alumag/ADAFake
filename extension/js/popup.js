@@ -1,8 +1,22 @@
 chrome.runtime.onMessage.addListener(
     function(request, sender, sendResponse){
         if(request.msg == "chart"){
-            alert("success");
 
+            // add information in a paragraph
+            var data = request.data;
+            var x = document.createElement("P");
+            var text = "The tweet by " + data["tweet"]["user_screen_name"] + " is ";
+            if (data["fake_news"] == true) {
+                text += "may a FAKE NEWS!";
+            } else {
+                text += "completely legit AFFFF";
+            }
+            var t = document.createTextNode(text);
+            x.appendChild(t);
+            document.getElementById("stats").appendChild(x);
+
+
+            // add chart! for now only a demo
             var ctx = document.getElementById("canvas");
 
             var myChart = new Chart(ctx, {
