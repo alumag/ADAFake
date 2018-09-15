@@ -6,7 +6,7 @@ a google chrome extension thats detects fake news on twitter at real time
 
 ## Authors
 
-* **Aviv Netayahoo** - *Machine learning* - [avivne](https://github.com/avivne)
+* **Aviv Netanyahu** - *Machine learning* - [avivne](https://github.com/avivne)
 * **Dikla Gelbard-Solodkin** - *Machine learning* - [DiklaGelbard](https://github.com/DiklaGelbard)
 * **Aluma Gelbard** - *Chrome extension side* - [MissLummie](https://github.com/MissLummie)
 
