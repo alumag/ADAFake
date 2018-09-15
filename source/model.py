@@ -45,23 +45,27 @@ def train(x, y):
 
 
 def evaluate(x, save_path): #todo default path!!
+    # normalize with train statistics
+    with open('../data/norm_train_params.pkl', 'rb') as f:
+        train_mean, train_std = pickle.load(f)
+    x = (x - train_mean) / train_std
     loaded_model = load_model(save_path)
     est = loaded_model.predict(x)
     return est.astype(bool).flatten()
 
 
 if __name__ == "__main__":
-    with open('../data/numeric_data.pkl', 'rb') as f:
+    with open('../data/processed_data.pkl', 'rb') as f:
         data, lbls = pickle.load(f)
     # equal fake / real samples
     n_min = np.minimum(np.sum(lbls == 0), np.sum(lbls == 1))
     idx = np.concatenate([random.sample(list(np.where(lbls == 0)[0]), n_min), random.sample(list(np.where(lbls == 1)[0]), n_min)])
     # normalize the data
-    train_mean = np.mean(data[idx],axis=1)
-    train_std = np.std(data[idx],axis=1)
+    train_mean = np.mean(data[idx],axis=0)
+    train_std = np.std(data[idx],axis=0)
     train_data = (data[idx] - train_mean) / train_std
     # save normalization params
-    with open('../data/norm_train_params.pkl', 'rb') as f:
+    with open('../data/norm_train_params.pkl', 'wb') as f:
         pickle.dump([train_mean, train_std],f)
     train(train_data, lbls[idx])
     # load_path = '2018-09-15 11_08_05/weights.10-2.06.hdf5'
