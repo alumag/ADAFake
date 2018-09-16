@@ -22,7 +22,7 @@ def _check_tweet(url):
     tweet_data = get_tweet(url)
     response["tweet"] = tweet_data
 
-    response["fake_news"] = ADAFakeDetector_checkTweet(tweet_data)
+    response["fake_news"] = float(ADAFakeDetector_checkTweet(tweet_data))
 
     return jsonify(response)
 
