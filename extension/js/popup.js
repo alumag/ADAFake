@@ -18,15 +18,15 @@ function CheckTweet(tab) {
             // add information in a paragraph
             var stats = document.getElementById('stats');
             stats.innerHTML += "The tweet by " + data["tweet"]["user_screen_name"];
-            if (data["fake_news"] == true) {
+            if (data["fake_news"] >= 0.5) {
                 stats.innerHTML += " may be FAKE NEWS! ".bold().fontcolor("red");
                 stats.innerHTML += "<img src=\"/icons/fake.jpg\"/>";
             } else {
                 stats.innerHTML += " is completely legit AFFFF ".bold().fontcolor("green");
                 stats.innerHTML += "<img src=\"/icons/legit.jpg\"/>";
             }
+            stats.innerHTML += "</br>" + data["fake_news"] + "%";
 
-            create_chart(data);
          }
     };
     xhttp.open("GET", server + "?url=" + url, true);
@@ -52,43 +52,6 @@ window.onload = function() {
             var stats = document.getElementById('stats');
             stats.innerHTML += "<h2>You are not surfing Twitter right now...</h2></br>";
             stats.innerHTML += "<img src=\"/icons/hugewall.jpg\"/>";
-            var chart_container = document.getElementById('chart-container');
-            chart_container.remove();
-
         }
-    });
-};
-
-
-function create_chart(data) {
-    // add chart! for now only a demo
-    var ctx = document.getElementById("canvas");
-
-    data = {
-    datasets: [{
-        data: [0.4, 1, 0.2],
-        backgroundColor: [
-                'rgba(255, 99, 132, 0.2)',
-                'rgba(54, 162, 235, 0.2)',
-                'rgba(255, 206, 86, 0.2)'
-        ],
-        borderColor: [
-            'rgba(255,99,132,1)',
-            'rgba(54, 162, 235, 1)',
-            'rgba(255, 206, 86, 1)'
-        ]
-    }],
-
-    // These labels appear in the legend and in the tooltips when hovering different arcs
-    labels: [
-        'Journalist',
-        'Fake News',
-        'Opinion'
-    ]
-    };
-
-    var chart = new Chart(ctx, {
-    data: data,
-    type: 'doughnut',
     });
 };
