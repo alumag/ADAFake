@@ -48,6 +48,13 @@ window.onload = function() {
 
             // check if fake news
             CheckTweet(tab);
+        } else {
+            var stats = document.getElementById('stats');
+            stats.innerHTML += "<h2>You are not surfing Twitter right now...</h2></br>";
+            stats.innerHTML += "<img src=\"/icons/hugewall.jpg\"/>";
+            var chart_container = document.getElementById('chart-container');
+            chart_container.remove();
+
         }
     });
 };
