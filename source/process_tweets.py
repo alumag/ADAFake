@@ -29,7 +29,7 @@ def process_test_text(txt):
     sentiments = []
     for wrd in txt:
         sentiments.append(TextBlob(wrd).sentiment)
-    vectorizer = pkl.load("../data/vectorizer.pkl",'rb')
+    vectorizer = pkl.load(open("../data/vectorizer.pkl",'rb'))
     txt = vectorizer.transform(txt)
     return scipy.sparse.hstack([txt, np.array(sentiments)])
 

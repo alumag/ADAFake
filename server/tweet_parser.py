@@ -15,18 +15,18 @@ compiled = re.compile(pattern=pattern)
 
 def get_relevant_tweet_data(tweet):
     relevant_data = dict(
-        tweet_id=tweet["id"],
-        created_at=tweet["created_at"],
-        retweet_count=tweet["retweet_count"],
-        text=tweet["text"],
-        user_screen_name=tweet["user"]["screen_name"],
-        user_verified=tweet["user"]["verified"],
-        user_friends_count=tweet["user"]["friends_count"],
-        user_followers_count=tweet["user"]["followers_count"],
-        user_favourites_count=tweet["user"]["favourites_count"],
-        num_hashtags=len(tweet["entities"]["hashtags"]),
-        num_mentions=len(tweet["entities"]["user_mentions"]),
-        num_urls=len(tweet["entities"]["urls"])
+        tweet_id=[tweet["id"]],
+        created_at=[tweet["created_at"]],
+        retweet_count=[tweet["retweet_count"]],
+        text=[tweet["text"]],
+        user_screen_name=[tweet["user"]["screen_name"]],
+        user_verified=[tweet["user"]["verified"]],
+        user_friends_count=[tweet["user"]["friends_count"]],
+        user_followers_count=[tweet["user"]["followers_count"]],
+        user_favourites_count=[tweet["user"]["favourites_count"]],
+        num_hashtags=[len(tweet["entities"]["hashtags"])],
+        num_mentions=[len(tweet["entities"]["user_mentions"])],
+        num_urls=[len(tweet["entities"]["urls"])]
     )
 
     return relevant_data
