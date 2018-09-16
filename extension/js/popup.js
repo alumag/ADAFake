@@ -19,10 +19,10 @@ function CheckTweet(tab) {
             var stats = document.getElementById('stats');
             stats.innerHTML += "The tweet by " + data["tweet"]["user_screen_name"];
             if (data["fake_news"] == true) {
-                stats.innerHTML += "may be FAKE NEWS!".bold().fontcolor("red");
+                stats.innerHTML += " may be FAKE NEWS! ".bold().fontcolor("red");
                 stats.innerHTML += "<img src=\"/icons/fake.jpg\"/>";
             } else {
-                stats.innerHTML += "is completely legit AFFFF".bold().fontcolor("green");
+                stats.innerHTML += " is completely legit AFFFF ".bold().fontcolor("green");
                 stats.innerHTML += "<img src=\"/icons/legit.jpg\"/>";
             }
 
