@@ -3,3 +3,8 @@ tweepy
 numpy
 keras
 matplotlib
+pandas
+sklearn
+textblob
+nltk
+gensim
