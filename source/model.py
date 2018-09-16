@@ -44,7 +44,7 @@ def train(x, y):
     plt.show()
 
 
-def evaluate(x, save_path): #todo default path!!
+def evaluate(x, save_path='2018-09-16 01-00-16/weights.12-0.61.hdf5'):
     # normalize with train statistics
     with open('../data/norm_train_params.pkl', 'rb') as f:
         train_mean, train_std = pickle.load(f)
