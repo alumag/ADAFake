@@ -75,7 +75,6 @@ if __name__ == "__main__":
     #     pickle.dump([train_mean, train_std],f)
     # train(train_data, lbls[idx])
 
-# commit to model, norm_train_params, model folder
 
 
 
