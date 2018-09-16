@@ -44,13 +44,13 @@ def train(x, y):
     plt.show()
 
 
-def evaluate(x, save_path='2018-09-16 01-00-16/weights.12-0.61.hdf5'):
+def evaluate(x, save_path='../source/2018-09-16 01-00-16/weights.12-0.61.hdf5'):
     # normalize with train statistics
     with open('../data/norm_train_params.pkl', 'rb') as f:
         train_mean, train_std = pickle.load(f)
     x = (x - train_mean) / train_std
     loaded_model = load_model(save_path)
-    est = loaded_model.predict(x.reshape(-1,49))
+    est = loaded_model.predict(x.reshape(-1, 49))
     return est.flatten()
 
 
