@@ -47,3 +47,52 @@ transformer = TfidfTransformer(smooth_idf=False)
 count_vectorizer = CountVectorizer(ngram_range=(1, 2))
 counts = count_vectorizer.fit_transform(original_data['text'].values)
 tfidf = transformer.fit_transform(counts)
+
+
+##################
+from nltk.tokenize import TweetTokenizer
+from nltk.tokenize import word_tokenize
+from nltk.util import ngrams
+from collections import Counter
+from nltk.tokenize import MWETokenizer
+
+tknzr = TweetTokenizer()
+tkn_txt = tknzr.tokenize(txt[:, 0][0])
+
+
+def get_ngrams(text, n):
+    n_grams = ngrams(tknzr.tokenize(text), n)
+    return [' '.join(grams) for grams in n_grams]
+
+
+def mwet_tkn(text):
+
+
+def get_bag_of_words(text):
+    return Counter(text)
+
+get_bag_of_words(get_ngrams(txt[:, 0][0],2))
+
+
+
+#######
+
+train=pd.read_csv('ADAFake/data/train.csv')
+test=pd.read_csv('ADAFake/data/test.csv')
+test.info()
+test['label']='t'
+train.info()
+from sklearn.feature_extraction.text import CountVectorizer
+from sklearn.naive_bayes import MultinomialNB
+from sklearn.feature_extraction.text import TfidfTransformer
+
+#data prep
+test=test.fillna(' ')
+train=train.fillna(' ')
+test['total']=test['title']+' '+test['author']+test['text']
+train['total']=train['title']+' '+train['author']+train['text']
+
+transformer = TfidfTransformer(smooth_idf=False)
+count_vectorizer = CountVectorizer(ngram_range=(1, 2))
+counts = count_vectorizer.fit_transform(train['total'].values)
+tfidf = transformer.fit_transform(counts)
