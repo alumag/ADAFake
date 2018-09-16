@@ -22,7 +22,7 @@ def train(x, y):
     y = y[idx]
 
     model = Sequential()
-    model.add(Dense(32, activation='relu', input_dim=x.shape[1]))
+    model.add(Dense(64, activation='relu', input_dim=x.shape[1]))
     model.add(Dense(1, activation='sigmoid'))
     sgd = optimizers.SGD(lr=0.001, decay=1e-6, momentum=0.9, nesterov=True)
     model.compile(optimizer=sgd,
@@ -50,8 +50,8 @@ def evaluate(x, save_path='2018-09-16 01-00-16/weights.12-0.61.hdf5'):
         train_mean, train_std = pickle.load(f)
     x = (x - train_mean) / train_std
     loaded_model = load_model(save_path)
-    est = loaded_model.predict(x)
-    return est.astype(bool).flatten()
+    est = loaded_model.predict(x.reshape(-1,49))
+    return est.flatten()
 
 
 if __name__ == "__main__":
@@ -67,7 +67,7 @@ if __name__ == "__main__":
     # save normalization params
     with open('../data/norm_train_params.pkl', 'wb') as f:
         pickle.dump([train_mean, train_std],f)
-    train(train_data, lbls[idx])
+    # train(train_data, lbls[idx])
     # load_path = '2018-09-15 11_08_05/weights.10-2.06.hdf5'
     # est = evaluate(data, load_path)
     # print('test')
