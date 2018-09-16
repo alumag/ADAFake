@@ -9,5 +9,4 @@ def check_tweet(tweet_data):
     """
     tweet_data = pandas.DataFrame(tweet_data)
     processed_data = get_features(tweet_data[['text', 'user_screen_name'] + COL_NUM_NAMES])
-    import pdb; pdb.set_trace();
     return evaluate(processed_data)
